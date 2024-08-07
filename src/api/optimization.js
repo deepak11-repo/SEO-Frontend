@@ -38,7 +38,14 @@ export const getTitle = async (url, primaryKeywords) => {
   console.log("Title API called");
   try {
     const response = await axios.get(
-      `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`
+      `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`, 
+      {
+        headers: {
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-US,en;q=0.9",
+          "Referer": "https://seo-frontend-two.vercel.app/",
+        },
+      }
     );
     return response.data;
   } catch (error) {
