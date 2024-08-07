@@ -3,7 +3,7 @@ import axios from "axios";
 /**
  * Defines the base API URL for making requests to the server.
  */
-const API_URL = "https://seo-backend-yygs.onrender.com"
+const API_URL = "https://seo.wisdmlabs.net"
 
 export const validateUrl = async (url) => {
   console.log(`Validation URL: ${url}`);
