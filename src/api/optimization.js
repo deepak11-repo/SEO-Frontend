@@ -49,10 +49,16 @@ export const getTitle = async (url, primaryKeywords) => {
     );
     return response.data;
   } catch (error) {
+    console.error('Error fetching title:', error);
     if (error.response) {
+      console.error('Server error:', error.response.data);
       throw new Error(error.response.data.message);
+    } else if (error.request) {
+      console.error('Network error:', error.request);
+      throw new Error('Network error. Please try again.');
     } else {
-      throw new Error("An error occurred. Please try again.");
+      console.error('Error setting up request:', error.message);
+      throw new Error('An error occurred. Please try again.');
     }
   }
 };
