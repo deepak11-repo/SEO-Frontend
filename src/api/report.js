@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://seo.wisdmlabs.net"
+const API_URL = "https://seo-backend-yygs.onrender.com"
 
 export const checkTechnicalSEO = async (url) => {
   console.log('Technical SEO API called');
