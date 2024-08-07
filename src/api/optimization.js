@@ -33,17 +33,30 @@ export const getURL = async (url, primaryKeywords) => {
 };
 
 export const getTitle = async (url, primaryKeywords) => {
-    console.log('Title API called');
+  console.log('Title API called');
   try {
-    const response = await axios.get(
-      `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`);
-    return response.data
+      const response = await axios.get(
+          `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`,
+          {
+              headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Accept-Language': 'en-US,en;q=0.9',
+                  'Sec-CH-UA': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
+                  'Sec-CH-UA-Mobile': '?0',
+                  'Sec-CH-UA-Platform': '"Windows"',
+                  'Sec-Fetch-Dest': 'empty',
+                  'Sec-Fetch-Mode': 'cors',
+                  'Sec-Fetch-Site': 'cross-site'
+              }
+          }
+      );
+      return response.data;
   } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error("An error occurred. Please try again.");
-    }
+      if (error.response) {
+          throw new Error(error.response.data.message);
+      } else {
+          throw new Error("An error occurred. Please try again.");
+      }
   }
 };
 
@@ -51,7 +64,20 @@ export const getMeta = async (url, primaryKeywords) => {
   console.log('Meta API called');
   try {
       const response = await axios.get(
-        `${API_URL}/api/optimize/meta?url=${url}&primaryKeywords=${primaryKeywords}`);
+        `${API_URL}/api/optimize/meta?url=${url}&primaryKeywords=${primaryKeywords}`,
+        {
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Accept-Language': 'en-US,en;q=0.9',
+              'Sec-CH-UA': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
+              'Sec-CH-UA-Mobile': '?0',
+              'Sec-CH-UA-Platform': '"Windows"',
+              'Sec-Fetch-Dest': 'empty',
+              'Sec-Fetch-Mode': 'cors',
+              'Sec-Fetch-Site': 'cross-site'
+          }
+        }
+      );
       return response.data;
   } catch (error) {
       if (error.response) {
@@ -66,7 +92,20 @@ export const getH1 = async (url, primaryKeywords) => {
   console.log('H1 API called');
   try {
       const response = await axios.get(
-        `${API_URL}/api/optimize/h1?url=${url}&primaryKeywords=${primaryKeywords}`);
+        `${API_URL}/api/optimize/h1?url=${url}&primaryKeywords=${primaryKeywords}`,
+        {
+          headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Accept-Language': 'en-US,en;q=0.9',
+              'Sec-CH-UA': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
+              'Sec-CH-UA-Mobile': '?0',
+              'Sec-CH-UA-Platform': '"Windows"',
+              'Sec-Fetch-Dest': 'empty',
+              'Sec-Fetch-Mode': 'cors',
+              'Sec-Fetch-Site': 'cross-site'
+          }
+        }
+      );
       return response.data;
   } catch (error) {
       if (error.response) {
