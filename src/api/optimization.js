@@ -40,14 +40,6 @@ export const getTitle = async (url, primaryKeywords) => {
           {
               headers: {
                   'Accept': 'application/json, text/plain, */*',
-                  'Cache-Control': 'no-cache',
-                  'Accept-Language': 'en-US,en;q=0.9',
-                  'Sec-CH-UA': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
-                  'Sec-CH-UA-Mobile': '?0',
-                  'Sec-CH-UA-Platform': '"Windows"',
-                  'Sec-Fetch-Dest': 'empty',
-                  'Sec-Fetch-Mode': 'cors',
-                  'Sec-Fetch-Site': 'cross-site'
               }
           }
       );
@@ -69,14 +61,6 @@ export const getMeta = async (url, primaryKeywords) => {
         {
           headers: {
               'Accept': 'application/json, text/plain, */*',
-              'Cache-Control': 'no-cache',
-              'Accept-Language': 'en-US,en;q=0.9',
-              'Sec-CH-UA': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
-              'Sec-CH-UA-Mobile': '?0',
-              'Sec-CH-UA-Platform': '"Windows"',
-              'Sec-Fetch-Dest': 'empty',
-              'Sec-Fetch-Mode': 'cors',
-              'Sec-Fetch-Site': 'cross-site'
           }
         }
       );
@@ -98,14 +82,6 @@ export const getH1 = async (url, primaryKeywords) => {
         {
           headers: {
               'Accept': 'application/json, text/plain, */*',
-              'Cache-Control': 'no-cache',
-              'Accept-Language': 'en-US,en;q=0.9',
-              'Sec-CH-UA': '"Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"',
-              'Sec-CH-UA-Mobile': '?0',
-              'Sec-CH-UA-Platform': '"Windows"',
-              'Sec-Fetch-Dest': 'empty',
-              'Sec-Fetch-Mode': 'cors',
-              'Sec-Fetch-Site': 'cross-site'
           }
         }
       );
