@@ -84,8 +84,10 @@ export const getTitle = async (url, primaryKeywords) => {
       `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`);
     return response.data;
   } catch (error) {
+    console.log('Title API error:', error);
     if (error.response) {
       throw new Error(error.response.data.message);
+      
     } else {
       throw new Error("An error occurred. Please try again.");
     }
