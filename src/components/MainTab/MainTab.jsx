@@ -111,11 +111,11 @@ const MainTab = () => {
             if (url && primaryKeywords && secondaryKeywords) {
                 try {
                     setLoading(true);
-    
+                    
                     // Reset all previous responses
                     resetResponses();
     
-                    // Define dispatch actions
+                    // Define dispatch actions with error handling
                     const dispatchActions = [
                         { action: () => getURL(url, primaryKeywords), responseSetter: setUrlResponse, loadingSetter: setUrlLoading },
                         { action: () => getTitle(url, primaryKeywords), responseSetter: setTitleResponse, loadingSetter: setTitleLoading },  
@@ -142,17 +142,26 @@ const MainTab = () => {
                     await dispatchActions.reduce(async (previousPromise, { action, responseSetter, loadingSetter }, index) => {
                         await previousPromise; // Wait for the previous action to complete
     
-                        const response = await action();
-                        dispatch(responseSetter(response));
-    
-                        // Set loading to false
-                        dispatch(loadingSetter(false));
-    
-                        // Update progress
-                        currentProgress += increment;
-                        setProgress(Math.min(currentProgress, 100)); 
-                        if (index < dispatchActions.length - 1) {
-                            await new Promise(resolve => setTimeout(resolve, 500));
+                        try {
+                            const response = await action();
+                            if (response.message === 'error') {
+                                // Handle specific error messages here
+                                console.error(`Error during action ${index}:`, response.detail);
+                                dispatch(responseSetter({ error: response.detail }));
+                            } else {
+                                dispatch(responseSetter(response));
+                            }
+                        } catch (error) {
+                            // Handle unexpected errors
+                            console.error(`Unexpected error during action ${index}:`, error);
+                            dispatch(responseSetter({ error: 'An unexpected error occurred' }));
+                        } finally {
+                            dispatch(loadingSetter(false));
+                            currentProgress += increment;
+                            setProgress(Math.min(currentProgress, 100));
+                            if (index < dispatchActions.length - 1) {
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                            }
                         }
                     }, Promise.resolve());
     
@@ -160,12 +169,14 @@ const MainTab = () => {
                     dispatch(setReportLinkLoading(false));
                 } catch (error) {
                     setLoading(false);
+                    console.error('Error in fetchData:', error);
                 }
             }
         };
     
         fetchData();
     }, [url, primaryKeywords, secondaryKeywords, dispatch]);
+    
 
     const handleItemClick = (item) => {
         setActiveItem(item);
