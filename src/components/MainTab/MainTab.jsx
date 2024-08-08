@@ -155,11 +155,16 @@ const MainTab = () => {
                             // Handle errors that occur during the action
                             console.error(`Unexpected error during action:`, error);
                         
-                            // Determine the error message based on the error type or status code
-                            let errorMessage;
+                            // Initialize variables for error message and status code
+                            let errorMessage = 'An unexpected error occurred.';
+                            let statusCode = 'Unknown';
+                        
+                            // Check if error.response exists and extract status code
                             if (error.response) {
-                                // If the error has a response property
-                                switch (error.response.status) {
+                                statusCode = error.response.status;
+                        
+                                // Set error message based on status code
+                                switch (statusCode) {
                                     case 400:
                                         errorMessage = 'Bad Request: The server could not understand the request.';
                                         break;
@@ -179,11 +184,10 @@ const MainTab = () => {
                                         errorMessage = 'An unexpected error occurred.';
                                         break;
                                 }
-                            } else {
-                                // Handle errors without a response property
-                                errorMessage = 'An unexpected error occurred.';
                             }
                         
+                            // Log the status code along with the error message
+                            console.error(`Error status code: ${statusCode}`);
                             dispatch(responseSetter({ error: errorMessage }));
                         } finally {
                             dispatch(loadingSetter(false));
