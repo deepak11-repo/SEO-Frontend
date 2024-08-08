@@ -153,7 +153,7 @@ const MainTab = () => {
                             }
                         } catch (error) {
                             // Handle errors that occur during the action
-                            console.error(`Unexpected error during action:`, error);
+                            console.log(`123 Unexpected error during action:`, error);
                         
                             // Determine the error message based on the error type or status code
                             let errorMessage;
