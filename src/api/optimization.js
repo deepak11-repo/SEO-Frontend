@@ -81,13 +81,7 @@ export const getTitle = async (url, primaryKeywords) => {
   console.log("Title API called");
   try {
     const response = await axios.get(
-      `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`,
-      {
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-        },
-      }
-    );
+      `${API_URL}/api/optimize/title?url=${url}&primaryKeywords=${primaryKeywords}`);
     return response.data;
   } catch (error) {
     if (error.response) {
