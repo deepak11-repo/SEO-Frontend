@@ -86,8 +86,8 @@ export const getTitle = async (url, primaryKeywords) => {
   } catch (error) {
     console.log('Title API error:', error);
     if (error.response) {
-      throw new Error(error.response.data.message);
-      
+      // throw new Error(error.response.data.message); 
+      return error;     
     } else {
       throw new Error("An error occurred. Please try again.");
     }
