@@ -100,6 +100,7 @@ const MainTab = () => {
             dispatch(setParagraphResponse(null));
             dispatch(setImageResponse(null));
             dispatch(setAnchorResponse(null));
+            dispatch(setLinkResponse(null));
             dispatch(setUrlResponse(null));
             dispatch(setTechResponse(null));
             dispatch(setComplianceResponse(null));
@@ -108,64 +109,63 @@ const MainTab = () => {
     
         const fetchData = async () => {
             if (url && primaryKeywords && secondaryKeywords) {
-                setLoading(true);
-                resetResponses();
+                try {
+                    setLoading(true);
     
-                // Define dispatch actions with error handling
-                const dispatchActions = [
-                    { action: getURL(url, primaryKeywords), responseSetter: setUrlResponse, loadingSetter: setUrlLoading },
-                    { action: getTitle(url, primaryKeywords), responseSetter: setTitleResponse, loadingSetter: setTitleLoading },  
-                    { action: getMeta(url, primaryKeywords), responseSetter: setMetaResponse, loadingSetter: setMetaLoading },                              
-                    { action: getH1(url, primaryKeywords), responseSetter: setH1Response, loadingSetter: setH1Loading },
-                    { action: getH2(url, secondaryKeywords), responseSetter: setH2Response, loadingSetter: setH2Loading },
-                    { action: getH3(url, secondaryKeywords), responseSetter: setH3Response, loadingSetter: setH3Loading },
-                    { action: getH4(url, secondaryKeywords), responseSetter: setH4Response, loadingSetter: setH4Loading },
-                    { action: getH5(url, secondaryKeywords), responseSetter: setH5Response, loadingSetter: setH5Loading },
-                    { action: getH6(url, secondaryKeywords), responseSetter: setH6Response, loadingSetter: setH6Loading },
-                    { action: getContent(url, primaryKeywords, secondaryKeywords), responseSetter: setParagraphResponse, loadingSetter: setParagraphLoading },
-                    { action: getImage(url), responseSetter: setImageResponse, loadingSetter: setImageLoading },
-                    { action: getAnchorText(url), responseSetter: setAnchorResponse, loadingSetter: setAnchorLoading },
-                    { action: getAnchorLinks(url), responseSetter: setLinkResponse, loadingSetter: setLinkLoading },
-                    { action: checkTechnicalSEO(url), responseSetter: setTechResponse, loadingSetter: setTechLoading },
-                    { action: checkCompilanceSEO(url), responseSetter: setComplianceResponse, loadingSetter: setCompilanceLoading },
-                ];
+                    // Reset all previous responses
+                    resetResponses();
     
-                // Calculate increment for each dispatch action
-                const increment = 100 / dispatchActions.length;
+                    // Define dispatch actions
+                    const dispatchActions = [
+                        { action: () => getURL(url, primaryKeywords), responseSetter: setUrlResponse, loadingSetter: setUrlLoading },
+                        { action: () => getTitle(url, primaryKeywords), responseSetter: setTitleResponse, loadingSetter: setTitleLoading },  
+                        { action: () => getMeta(url, primaryKeywords), responseSetter: setMetaResponse, loadingSetter: setMetaLoading },                              
+                        { action: () => getH1(url, primaryKeywords), responseSetter: setH1Response, loadingSetter: setH1Loading },
+                        { action: () => getH2(url, secondaryKeywords), responseSetter: setH2Response, loadingSetter: setH2Loading },
+                        { action: () => getH3(url, secondaryKeywords), responseSetter: setH3Response, loadingSetter: setH3Loading },
+                        { action: () => getH4(url, secondaryKeywords), responseSetter: setH4Response, loadingSetter: setH4Loading },
+                        { action: () => getH5(url, secondaryKeywords), responseSetter: setH5Response, loadingSetter: setH5Loading },
+                        { action: () => getH6(url, secondaryKeywords), responseSetter: setH6Response, loadingSetter: setH6Loading },
+                        { action: () => getContent(url, primaryKeywords, secondaryKeywords), responseSetter: setParagraphResponse, loadingSetter: setParagraphLoading },
+                        { action: () => getImage(url), responseSetter: setImageResponse, loadingSetter: setImageLoading },
+                        { action: () => getAnchorText(url), responseSetter: setAnchorResponse, loadingSetter: setAnchorLoading },
+                        { action: () => getAnchorLinks(url), responseSetter: setLinkResponse, loadingSetter: setLinkLoading },
+                        { action: () => checkTechnicalSEO(url), responseSetter: setTechResponse, loadingSetter: setTechLoading },
+                        { action: () => checkCompilanceSEO(url), responseSetter: setComplianceResponse, loadingSetter: setCompilanceLoading },
+                    ];
     
-                // Execute dispatch actions one by one with a delay and error handling
-                let currentProgress = 0;
-                await dispatchActions.reduce(async (previousPromise, { action, responseSetter, loadingSetter }, index) => {
-                    await previousPromise; // Wait for the previous action to complete
+                    // Calculate increment for each dispatch action
+                    const increment = 100 / dispatchActions.length;
     
-                    try {
+                    // Execute dispatch actions one by one with a delay
+                    let currentProgress = 0;
+                    await dispatchActions.reduce(async (previousPromise, { action, responseSetter, loadingSetter }, index) => {
+                        await previousPromise; // Wait for the previous action to complete
+    
                         const response = await action();
                         dispatch(responseSetter(response));
-                    } catch (error) {
-                        console.error('API Error:', error); // Log error
-                        dispatch(responseSetter({ error: error.message })); // Optionally set an error response
-                    } finally {
-                        // Always set loading to false
+    
+                        // Set loading to false
                         dispatch(loadingSetter(false));
     
                         // Update progress
                         currentProgress += increment;
                         setProgress(Math.min(currentProgress, 100)); 
-    
                         if (index < dispatchActions.length - 1) {
                             await new Promise(resolve => setTimeout(resolve, 500));
                         }
-                    }
-                }, Promise.resolve());
+                    }, Promise.resolve());
     
-                setLoading(false);
-                dispatch(setReportLinkLoading(false));
+                    setLoading(false);
+                    dispatch(setReportLinkLoading(false));
+                } catch (error) {
+                    setLoading(false);
+                }
             }
         };
     
         fetchData();
     }, [url, primaryKeywords, secondaryKeywords, dispatch]);
-    
 
     const handleItemClick = (item) => {
         setActiveItem(item);
