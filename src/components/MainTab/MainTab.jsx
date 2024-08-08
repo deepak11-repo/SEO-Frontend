@@ -156,7 +156,8 @@ const MainTab = () => {
                             console.error(`Unexpected error during action:`, error);
                         
                             // Initialize variables for error message and status code
-                            let errorMessage = 'An unexpected error occurred.';
+                            // let errorMessage = 'An unexpected error occurred.';
+                            let errorMessage;
                             let statusCode = 'Unknown';
                         
                             // Check if error.response exists and extract status code
