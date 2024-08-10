@@ -33,37 +33,40 @@ const BackgroundLoader = () => {
         dispatch(setLoadingProgress(progress));
       };      
 
-      await getLinks();
-      dispatch(setLinkLoader(false));
+      // Execute each function and ensure the sequence continues regardless of errors
+      await executeTask(getLinks, setLinkLoader);
       updateProgress();
 
-      await getAltKeyword();
-      dispatch(setImageLoader(false));
+      await executeTask(getAltKeyword, setImageLoader);
       updateProgress();
 
-      await getMetaTags();
-      dispatch(setTagLoader(false));
+      await executeTask(getMetaTags, setTagLoader);
       updateProgress();
 
-      await getURLInfo();
-      dispatch(setUrlLoader(false));
+      await executeTask(getURLInfo, setUrlLoader);
       updateProgress();
 
-      await getTitleInfo();
-      dispatch(setTitlemetaLoader(false));
+      await executeTask(getTitleInfo, setTitlemetaLoader);
       updateProgress();
 
-      await getContentInfo();
-      dispatch(setContentLoader(false));
+      await executeTask(getContentInfo, setContentLoader);
       updateProgress();
 
-      await getScore();
-      dispatch(setScoreLoader(false));
+      await executeTask(getScore, setScoreLoader);
       updateProgress();
 
-      await getSS();
-      dispatch(setScreenshotLoader(false));
+      await executeTask(getSS, setScreenshotLoader);
       updateProgress();
+    };
+
+    const executeTask = async (task, loaderAction) => {
+      try {
+        await task();
+      } catch (error) {
+        console.error(`Error executing task ${task.name}:`, error);
+      } finally {
+        dispatch(loaderAction(false));
+      }
     };
 
     runSequence();
@@ -81,57 +84,33 @@ const BackgroundLoader = () => {
   };
 
   const getLinks = async () => {
-    try {
-      const output = await checkInternalLinks(url);
-      dispatch(setInternalLink(output));
-    } catch (error) {
-      console.error('Error fetching internal links:', error);
-    }
+    const output = await checkInternalLinks(url);
+    dispatch(setInternalLink(output));
   };
 
   const getAltKeyword = async () => {
-    try {
-      const output = await checkAltKeyword(url, secondaryKeywords);
-      dispatch(setAltKeyword(output));
-    } catch (error) {
-      console.error('Error fetching alt keywords:', error);
-    }
+    const output = await checkAltKeyword(url, secondaryKeywords);
+    dispatch(setAltKeyword(output));
   };
 
   const getMetaTags = async () => {
-    try {
-      const output = await checkTags(url);
-      dispatch(setMetaTag(output));
-    } catch (error) {
-      console.error('Error fetching meta tags:', error);
-    }
+    const output = await checkTags(url);
+    dispatch(setMetaTag(output));
   };
 
   const getURLInfo = async () => {
-    try {
-      const output = await checkURL(url, primaryKeywords);
-      dispatch(setURLReport(output));
-    } catch (error) {
-      console.error('Error fetching URL Info:', error);
-    }
+    const output = await checkURL(url, primaryKeywords);
+    dispatch(setURLReport(output));
   };
 
   const getTitleInfo = async () => {
-    try {
-      const output = await checkTitleMeta(url, primaryKeywords, secondaryKeywords);
-      dispatch(setTitleMeta(output));
-    } catch (error) {
-      console.error('Error fetching title and meta', error);
-    }
+    const output = await checkTitleMeta(url, primaryKeywords, secondaryKeywords);
+    dispatch(setTitleMeta(output));
   };
 
   const getContentInfo = async () => {
-    try {
-      const output = await checkContent(url, primaryKeywords, secondaryKeywords);
-      dispatch(setContent(output));
-    } catch (error) {
-      console.error('Error fetching content', error);
-    }
+    const output = await checkContent(url, primaryKeywords, secondaryKeywords);
+    dispatch(setContent(output));
   };
 
   return null;
