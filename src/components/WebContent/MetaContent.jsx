@@ -3,6 +3,8 @@ import { Alert, Chip } from "@mui/material";
 import { MdContentCopy } from "react-icons/md";
 import toast from "react-hot-toast";
 import TooltipComponent from "../Tooltip/TooltipComponent";
+import errImg from '../../assets/errorImg.png';
+
 
 function MetaContent({ data }) {
     const [ isHovered, setIsHovered ] = useState(false);

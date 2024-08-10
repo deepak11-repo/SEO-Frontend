@@ -5,12 +5,29 @@ import toast from "react-hot-toast";
 import a3 from '../../assets/a3.png';
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import TooltipComponent from "../Tooltip/TooltipComponent";
+import errImg from '../../assets/errorImg.png';
+
 
 const AnchorText = ({ data }) => {
     console.log('Inside AnchorText');
 
     const safeData = data && data.optimizedText && Array.isArray(data.optimizedText) ? data.optimizedText : [];
 
+    if(data.message === 'error') {
+        return (
+            <>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
+                </div>
+            </>
+        );
+    }
+    
     if (data === null || safeData.length === 0) {
         return (
             <div className="w-full flex flex-col justify-center items-center mt-10">

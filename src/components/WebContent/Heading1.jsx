@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import TooltipComponent from "../Tooltip/TooltipComponent";
 import nodata from '../../assets/nodata.png';
 import nullImg from '../../assets/null.png';
+import errImg from '../../assets/errorImg.png';
+
 
 function Heading1({ data }) {
     console.log('Inside Heading1');

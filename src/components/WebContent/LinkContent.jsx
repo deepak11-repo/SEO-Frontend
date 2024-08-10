@@ -3,6 +3,8 @@ import Pagination from "../Pagination/Pagination";
 import { MdContentCopy, MdExpandMore } from "react-icons/md";
 import toast from "react-hot-toast";
 import a3 from '../../assets/a3.png';
+import errImg from '../../assets/errorImg.png';
+
 
 function LinkContent({ data }) {
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +17,21 @@ function LinkContent({ data }) {
 
     // Ensure data is an array
     const safeData = Array.isArray(data) ? data : [];
+
+    if(data.message === 'error') {
+        return (
+            <>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
+                </div>
+            </>
+        );
+    }
 
     if (safeData.length === 0) {
         return (

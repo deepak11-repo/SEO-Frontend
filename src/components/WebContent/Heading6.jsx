@@ -6,12 +6,29 @@ import toast from "react-hot-toast";
 import TooltipComponent from "../Tooltip/TooltipComponent";
 import nodata from '../../assets/nodata.png';
 import nullImg from '../../assets/null.png';
+import errImg from '../../assets/errorImg.png';
+
 
 function Heading6({ data }) {
     console.log('Inside Heading6');
     console.log(data);
 
     const safeData = Array.isArray(data) ? data : [];
+
+    if(data.message === 'error') {
+        return (
+            <>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
+                </div>
+            </>
+        );
+    }
 
     if (data === null) {
         return (
