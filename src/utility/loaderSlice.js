@@ -11,7 +11,7 @@ const initialState = {
     h4Loading: true,
     h5Loading: true,
     h6Loading: true,
-    paragraphLoading: false,
+    paragraphLoading: true,
     imageLoading: true,
     anchorLoading: true,
     linkLoading: true,

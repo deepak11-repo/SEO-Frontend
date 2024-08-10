@@ -27,11 +27,11 @@ function Paragraph({ data }) {
         );
     }
 
-    if (safeData.length === 0 || data.message === "empty") {
-        return (
-            <p>No data available</p>
-        );
-    }
+    // if (safeData.length === 0 || data.message === "empty") {
+    //     return (
+    //         <p>No data available</p>
+    //     );
+    // }
 
     if (data.message === "optimized") {
         return (
