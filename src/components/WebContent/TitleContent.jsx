@@ -25,7 +25,7 @@ function TitleContent({ data }) {
                     </Alert>
                 </div>
                 <div className="w-full flex flex-col justify-center items-center">
-                    <img src={errImg} alt="No Data Available" className="w-1/2"/>
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
                 </div>
             </>
         );

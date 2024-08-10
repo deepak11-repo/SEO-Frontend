@@ -19,6 +19,21 @@ function Heading1({ data }) {
         });
     };
 
+    if(data.message === 'error') {
+        return (
+            <>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
+                </div>
+            </>
+        );
+    }
+
     const originalH1Msg = "The H1 tag in SEO is crucial as it indicates the main topic of a webpage, helping search engines and users understand its content.";
     const recommendedH1Msg = "Recommended H1 is optimized with primary keywords to clearly define the page's content, improving its relevance and ranking.";
 

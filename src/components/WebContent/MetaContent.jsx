@@ -12,6 +12,22 @@ function MetaContent({ data }) {
             duration: 1300,
         });
     }
+    
+    if(data.message === 'error') {
+        return (
+            <>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
+                </div>
+            </>
+        );
+    }
+
     const originalMetaMsg = "The meta description in SEO provides a brief summary of a webpage's content, helping users and search engines understand its relevance.";
     const recommendedMetaMsg = "Recommended meta description is optimized with target keywords to attract the right audience and improve click-through rates.";
     if (data.message === "yes") {
