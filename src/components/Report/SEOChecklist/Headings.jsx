@@ -25,7 +25,6 @@ const Headings = () => {
             setH1Primary(false);
             setSubHeading(false);
             setSubHeadingKeyword(false);
-            setStatus('Error');
             dispatch(addPageScore(0)); // Set the score to 0 if there's an error
             return;
         }

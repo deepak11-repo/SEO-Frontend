@@ -19,9 +19,14 @@ const Images = () => {
 
     useEffect(() => {
         if (imageResponse) {
-            setAlt(!(imageResponse.altArray?.length > 0 || imageResponse.commonArray?.length > 0));
-            setTitle(!(imageResponse.titleArray?.length > 0 || imageResponse.commonArray?.length > 0));
-            getAltKeyword();
+            if (imageResponse.message === "error") {
+                setAlt(false);
+                setTitle(false);
+            } else {
+                setAlt(!(imageResponse.altArray?.length > 0 || imageResponse.commonArray?.length > 0));
+                setTitle(!(imageResponse.titleArray?.length > 0 || imageResponse.commonArray?.length > 0));
+                getAltKeyword();
+            }
         }
     }, [imageResponse]);
 
