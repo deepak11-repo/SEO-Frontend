@@ -15,6 +15,14 @@ function TitleContent({ data }) {
         });
     }
 
+    if(data.message === 'error') {
+        return (
+            <>
+                <h1>Error</h1>
+            </>
+        );
+    }
+
     if(titleLoading) {
         return (
             <>
