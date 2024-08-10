@@ -10,9 +10,10 @@ const InternalLinks = () => {
 
     const [status, setStatus] = useState('');
 
-    const hasLink = linkResponse.hasInternalLink;
-    const brokenLink = linkResponse.brokenLinks.length === 0;
-    const linkQuality = linkResponse.message === 'No URLs need optimization.';
+    // If linkResponse is null, the values will default to false
+    const hasLink = linkResponse?.hasInternalLink || false;
+    const brokenLink = linkResponse?.brokenLinks?.length === 0 || false;
+    const linkQuality = linkResponse?.message === 'No URLs need optimization.' || false;
 
     useEffect(() => {
         updateStatus();
