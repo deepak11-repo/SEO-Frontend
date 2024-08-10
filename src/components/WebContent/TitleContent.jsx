@@ -4,6 +4,7 @@ import { MdContentCopy } from "react-icons/md";
 import toast from "react-hot-toast";
 import TooltipComponent from "../Tooltip/TooltipComponent";
 import { useSelector } from "react-redux";
+import errImg from '../../assets/errorImg.png';
 
 function TitleContent({ data }) {
     const [ isHovered, setIsHovered ] = useState(false);
@@ -18,7 +19,14 @@ function TitleContent({ data }) {
     if(data.message === 'error') {
         return (
             <>
-                <h1>Error</h1>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-1/2"/>
+                </div>
             </>
         );
     }
