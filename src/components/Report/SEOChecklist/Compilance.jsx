@@ -14,8 +14,14 @@ const Compilance = () => {
 
   useEffect(() => {
     if (compilance) {
-      setCanonicalTag(compilance.canonicalTag.hasCanonicalTags || false);
-      setStructuredData(compilance.structuredData.exists && compilance.structuredData.isValid || false);
+      // If compilance.message is present, consider all as false
+      if (compilance.message) {
+        setCanonicalTag(false);
+        setStructuredData(false);
+      } else {
+        setCanonicalTag(compilance.canonicalTag?.hasCanonicalTags || false);
+        setStructuredData(compilance.structuredData?.exists && compilance.structuredData?.isValid || false);
+      }
     }
   }, [compilance]);
 
