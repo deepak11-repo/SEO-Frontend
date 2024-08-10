@@ -4,6 +4,7 @@ import { MdContentCopy, MdExpandMore } from "react-icons/md";
 import toast from "react-hot-toast";
 import a3 from '../../assets/a3.png';
 import errImg from '../../assets/errorImg.png';
+import { Alert } from "@mui/material";
 
 
 function LinkContent({ data }) {

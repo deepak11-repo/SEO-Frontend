@@ -9,6 +9,7 @@ import errImg from '../../assets/errorImg.png';
 import { Alert } from "@mui/material";
 
 const AnchorTextMissing = ({ data }) => {
+    console.log(data);
     console.log('Inside AnchorTextMissing');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
