@@ -10,7 +10,24 @@ import { Alert } from "@mui/material";
 
 const AnchorTextMissing = ({ data }) => {
     console.log(data);
+    
     console.log('Inside AnchorTextMissing');
+    
+    if(data.message === 'error') {
+        return (
+            <>
+                <div className="w-[99%] mb-5 mt-2">
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
+                    </Alert>
+                </div>
+                <div className="w-full flex flex-col justify-center items-center">
+                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
+                </div>
+            </>
+        );
+    }
+    
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
     
@@ -42,20 +59,7 @@ const AnchorTextMissing = ({ data }) => {
         }
     };
 
-    if(data.message === 'error') {
-        return (
-            <>
-                <div className="w-[99%] mb-5 mt-2">
-                    <Alert severity="error" sx={{width: '100%'}}>
-                        <p className="text-md tracking-wide leading-6 text-neutralDGrey font-medium">Due to certain security settings on the target website, we encountered an issue while retrieving data.</p>
-                    </Alert>
-                </div>
-                <div className="w-full flex flex-col justify-center items-center">
-                    <img src={errImg} alt="No Data Available" className="w-[35%]"/>
-                </div>
-            </>
-        );
-    }
+    
     
     const originalAnchorMsg = "Anchor tags should have meaningful text content. This helps search engines understand the linked page's context and improves accessibility for users, ensuring they know where the link leads.";
 
