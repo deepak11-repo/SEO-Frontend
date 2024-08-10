@@ -18,6 +18,19 @@ const Headings = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+
+        if (h1Response.message === "error" || h2Response.message === "error" || h3Response.message === "error") {
+            // Reset all values to false if there's an error message
+            setSingleH1(false);
+            setH1Primary(false);
+            setSubHeading(false);
+            setSubHeadingKeyword(false);
+            setStatus('Error');
+            dispatch(addPageScore(0)); // Set the score to 0 if there's an error
+            return;
+        }
+
+
         let singleH1Value = false;
         let h1PrimaryValue = false;
         let subHeadingValue = false;
