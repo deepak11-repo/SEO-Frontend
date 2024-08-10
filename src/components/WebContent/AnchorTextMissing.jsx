@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import a3 from '../../assets/a3.png';
 import TooltipComponent from "../Tooltip/TooltipComponent";
 import errImg from '../../assets/errorImg.png';
+import { Alert } from "@mui/material";
 
 const AnchorTextMissing = ({ data }) => {
     console.log('Inside AnchorTextMissing');

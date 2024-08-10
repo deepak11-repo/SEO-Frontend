@@ -15,9 +15,6 @@ function LinkContent({ data }) {
         console.log(data); 
     }, [data]);
 
-    // Ensure data is an array
-    const safeData = Array.isArray(data) ? data : [];
-
     if(data.message === 'error') {
         return (
             <>
@@ -32,6 +29,11 @@ function LinkContent({ data }) {
             </>
         );
     }
+
+    // Ensure data is an array
+    const safeData = Array.isArray(data) ? data : [];
+
+    
 
     if (safeData.length === 0) {
         return (

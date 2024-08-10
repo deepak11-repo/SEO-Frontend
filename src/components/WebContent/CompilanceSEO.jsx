@@ -3,6 +3,7 @@ import { AiFillDatabase } from 'react-icons/ai'
 import { FaCheckCircle, FaExternalLinkSquareAlt } from 'react-icons/fa'
 import { ImCross } from 'react-icons/im'
 import errImg from '../../assets/errorImg.png';
+import { Alert } from "@mui/material";
 
 
 const CompilanceSEO = ({ data }) => {

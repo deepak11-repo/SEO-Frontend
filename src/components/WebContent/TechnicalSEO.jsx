@@ -5,6 +5,7 @@ import { ImCross } from 'react-icons/im'
 import { LiaRobotSolid } from 'react-icons/lia'
 import { MdOutlineHttps } from 'react-icons/md'
 import errImg from '../../assets/errorImg.png';
+import { Alert } from "@mui/material";
 
 
 const TechnicalSEO = ({ data }) => {
