@@ -152,39 +152,9 @@ const MainTab = () => {
                                 dispatch(responseSetter(response));
                             }
                         } catch (error) {
-                            // Handle errors that occur during the action
-                            console.log(`123 Unexpected error during action:`, error);
-                        
-                            // Determine the error message based on the error type or status code
-                            let errorMessage;
-                            if (error.response) {
-                                // If the error has a response property
-                                switch (error.response.status) {
-                                    case 400:
-                                        errorMessage = 'Bad Request: The server could not understand the request.';
-                                        break;
-                                    case 401:
-                                        errorMessage = 'Unauthorized: Access is denied due to invalid credentials.';
-                                        break;
-                                    case 403:
-                                        errorMessage = 'Forbidden: You do not have permission to access this resource.';
-                                        break;
-                                    case 404:
-                                        errorMessage = 'Not Found: The requested resource could not be found.';
-                                        break;
-                                    case 502:
-                                        errorMessage = 'Bad Gateway: The upstream server returned an invalid response.';
-                                        break;
-                                    default:
-                                        errorMessage = 'An unexpected error occurred.';
-                                        break;
-                                }
-                            } else {
-                                // Handle errors without a response property
-                                errorMessage = 'An unexpected error occurred.';
-                            }
-                        
-                            dispatch(responseSetter({ error: errorMessage }));
+                            // Handle unexpected errors
+                            console.error(`Unexpected error during action ${index}:`, error);
+                            dispatch(responseSetter({ message: 'error' }));
                         } finally {
                             dispatch(loadingSetter(false));
                             currentProgress += increment;
