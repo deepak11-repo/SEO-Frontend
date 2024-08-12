@@ -17,40 +17,50 @@ const TechnicalSEO = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const robotsFileExists = techResponse.technicalSEO.hasRobotsTxt.exists;
-        const sitemapExists = techResponse.technicalSEO.hasSitemapXml.exists;
-        
-        const statusCode = techResponse.technicalSEO.hasHttpStatus.statusCode;
-        const httpStatusValid = techResponse.technicalSEO.hasHttpStatus.exists &&
-                                ((statusCode >= 200 && statusCode <= 208) ||
-                                 (statusCode >= 300 && statusCode <= 308));
-        
-        const mobileFriendly = techResponse.mobileFriendly.isMobileFriendly;
-
-        // Determine indexability
-        const isIndexable = robotsFileExists && sitemapExists && httpStatusValid && mobileFriendly;
-
-        // Update state variables
-        setRobotsFile(robotsFileExists);
-        setSitemap(sitemapExists);
-        setHttpStatus(httpStatusValid);
-        setMobileTest(mobileFriendly);
-        setIndexability(isIndexable);
-
-        // Update status
-        const trueCount = [robotsFileExists, sitemapExists, httpStatusValid, mobileFriendly, isIndexable].filter(Boolean).length;
-        if (trueCount >= 4) {
-            setStatus('Good');
-        } else if (trueCount === 3) {
-            setStatus('Average');
-        } else {
+        if (techResponse.message === "error") {
+            // If there's an error, set everything to false
+            setRobotsFile(false);
+            setSitemap(false);
+            setHttpStatus(false);
+            setMobileTest(false);
+            setIndexability(false);
             setStatus('Poor');
-        }
+            dispatch(addTechScore(0));
+        } else {
+            const robotsFileExists = techResponse.technicalSEO.hasRobotsTxt.exists;
+            const sitemapExists = techResponse.technicalSEO.hasSitemapXml.exists;
+            
+            const statusCode = techResponse.technicalSEO.hasHttpStatus.statusCode;
+            const httpStatusValid = techResponse.technicalSEO.hasHttpStatus.exists &&
+                                    ((statusCode >= 200 && statusCode <= 208) ||
+                                     (statusCode >= 300 && statusCode <= 308));
+            
+            const mobileFriendly = techResponse.mobileFriendly.isMobileFriendly;
 
-        // Add score for each true condition
-        const scoreToAdd = trueCount * 5;
-        dispatch(addTechScore(scoreToAdd));
-        
+            // Determine indexability
+            const isIndexable = robotsFileExists && sitemapExists && httpStatusValid && mobileFriendly;
+
+            // Update state variables
+            setRobotsFile(robotsFileExists);
+            setSitemap(sitemapExists);
+            setHttpStatus(httpStatusValid);
+            setMobileTest(mobileFriendly);
+            setIndexability(isIndexable);
+
+            // Update status
+            const trueCount = [robotsFileExists, sitemapExists, httpStatusValid, mobileFriendly, isIndexable].filter(Boolean).length;
+            if (trueCount >= 4) {
+                setStatus('Good');
+            } else if (trueCount === 3) {
+                setStatus('Average');
+            } else {
+                setStatus('Poor');
+            }
+
+            // Add score for each true condition
+            const scoreToAdd = trueCount * 5;
+            dispatch(addTechScore(scoreToAdd));
+        }
     }, [techResponse, dispatch]);
 
     return (
