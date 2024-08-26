@@ -17,6 +17,21 @@ export const validateUrl = async (url) => {
   }
 };
 
+export const generateKeywords = async (url) => {
+  console.log('Keywords API called');
+  try {
+    const response = await axios.get(`http://localhost:5000/api/optimize/keywords?url=${url}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error("An error occurred. Please try again.");
+    }
+  }
+}
+
 export const getURL = async (url, primaryKeywords) => {
   console.log("URL API called");
   try {
@@ -33,49 +48,6 @@ export const getURL = async (url, primaryKeywords) => {
     }
   }
 };
-
-// const retryRequest = async (url, params, retries = 3) => {
-//   for (let i = 0; i < retries; i++) {
-//     try {
-//       const response = await axios.get(url, { params });
-//       return response.data;
-//     } catch (error) {
-//       if (i === retries - 1) {
-//         // Log error details and throw after final retry
-//         console.error('Final attempt failed:', error);
-//         if (error.response) {
-//           console.error('Server error:', error.response.data);
-//           throw new Error(error.response.data.message);
-//         } else if (error.request) {
-//           console.error('Network error:', error.request);
-//           throw new Error('Network error. Please try again.');
-//         } else {
-//           console.error('Error setting up request:', error.message);
-//           throw new Error('An error occurred. Please try again.');
-//         }
-//       }
-//       // Wait before retrying
-//       await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
-//     }
-//   }
-// };
-
-
-
-// export const getTitle = async (url, primaryKeywords) => {
-//   console.log("Title API called");
-//   try {
-//     const response = await retryRequest(`${API_URL}/api/optimize/title`, {
-//       url: encodeURIComponent(url),
-//       primaryKeywords: encodeURIComponent(primaryKeywords)
-//     });
-//     return response;
-//   } catch (error) {
-//     console.error('Error fetching title:', error);
-//     throw error;
-//   }
-// };
-
 
 export const getTitle = async (url, primaryKeywords) => {
   console.log("Title API called");
