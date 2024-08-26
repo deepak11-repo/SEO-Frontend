@@ -20,7 +20,7 @@ export const validateUrl = async (url) => {
 export const generateKeywords = async (url) => {
   console.log('Keywords API called');
   try {
-    const response = await axios.get(`http://localhost:5000/api/optimize/keywords?url=${url}`);
+    const response = await axios.get(`${API_URL}/api/optimize/keywords?url=${url}`);
     console.log(response.data);
     return response.data;
   } catch (error) {
