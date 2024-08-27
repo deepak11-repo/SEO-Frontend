@@ -48,10 +48,14 @@ function UserInput({ onFormValid }) {
         if (formValid && (primaryKeys === '' || secondaryKeys === '')) {
             try {
                 const response = await generateKeywords(url);
-                primaryKeys = response.primary;
-                secondaryKeys = response.secondary;
-                setPrimaryKeywords(primaryKeys);
-                setSecondaryKeywords(secondaryKeys);
+                if (primaryKeys === '') {
+                    primaryKeys = response.primary;
+                    setPrimaryKeywords(primaryKeys);
+                }
+                if (secondaryKeys === '') {
+                    secondaryKeys = response.secondary;
+                    setSecondaryKeywords(secondaryKeys);
+                }
             } catch (error) {
                 console.error('Error generating keywords:', error);
                 formValid = false;
