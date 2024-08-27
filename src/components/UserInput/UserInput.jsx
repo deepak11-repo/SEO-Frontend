@@ -17,22 +17,6 @@ function UserInput({ onFormValid }) {
         secondaryKeywordsCount: false,
     });
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        const fetchKeywords = async () => {
-            if (websiteUrl && (primaryKeywords === '' || secondaryKeywords === '')) {
-                try {
-                    const response = await generateKeywords(websiteUrl);
-                    setPrimaryKeywords(response.primary);
-                    setSecondaryKeywords(response.secondary);
-                } catch (error) {
-                    console.error('Error generating keywords:', error);
-                }
-            }
-        };
-
-        fetchKeywords();
-    }, [websiteUrl]);
    
     const handleButtonClick = async () => {
         let url = websiteUrl.trim();
@@ -58,6 +42,19 @@ function UserInput({ onFormValid }) {
                 formValid = false;
             } else {
                 setErrors(prevErrors => ({ ...prevErrors, websiteUrl: false }));
+            }
+        }
+
+        if (formValid && (primaryKeys === '' || secondaryKeys === '')) {
+            try {
+                const response = await generateKeywords(url);
+                primaryKeys = response.primary;
+                secondaryKeys = response.secondary;
+                setPrimaryKeywords(primaryKeys);
+                setSecondaryKeywords(secondaryKeys);
+            } catch (error) {
+                console.error('Error generating keywords:', error);
+                formValid = false;
             }
         }
 
