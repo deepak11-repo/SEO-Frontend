@@ -1,4 +1,4 @@
-import { TextField, Checkbox, FormControlLabel } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import { BsFillRocketTakeoffFill } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
@@ -11,18 +11,33 @@ function UserInput({ onFormValid }) {
     const [websiteUrl, setWebsiteUrl] = useState('');    
     const [primaryKeywords, setPrimaryKeywords] = useState('');
     const [secondaryKeywords, setSecondaryKeywords] = useState('');
-    const [showKeywords, setShowKeywords] = useState(false);
     const [errors, setErrors] = useState({
         websiteUrl: false,
         primaryKeywordsCount: false,
         secondaryKeywordsCount: false,
     });
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchKeywords = async () => {
+            if (websiteUrl && (primaryKeywords === '' || secondaryKeywords === '')) {
+                try {
+                    const response = await generateKeywords(websiteUrl);
+                    setPrimaryKeywords(response.primary);
+                    setSecondaryKeywords(response.secondary);
+                } catch (error) {
+                    console.error('Error generating keywords:', error);
+                }
+            }
+        };
+
+        fetchKeywords();
+    }, [websiteUrl]);
    
     const handleButtonClick = async () => {
         let url = websiteUrl.trim();
-        let primaryKeys = '';
-        let secondaryKeys = '';
+        let primaryKeys = primaryKeywords.trim();
+        let secondaryKeys = secondaryKeywords.trim();
 
         // Dispatch null values first
         dispatch(setInputs({ url: null, primaryKeywords: null, secondaryKeywords: null }));       
@@ -51,49 +66,31 @@ function UserInput({ onFormValid }) {
             return keywords.length;
         };
 
-
-        
-        if (showKeywords) {
-            primaryKeys = primaryKeywords.trim();
-            secondaryKeys = secondaryKeywords.trim();
-            
-            if (primaryKeys === '') {
+        if (primaryKeys === '') {
+            setErrors(prevErrors => ({ ...prevErrors, primaryKeywordsCount: true }));
+            formValid = false;
+        } else {
+            const count = countKeywords(primaryKeys);
+            if (count > 2) {
                 setErrors(prevErrors => ({ ...prevErrors, primaryKeywordsCount: true }));
                 formValid = false;
             } else {
-                const count = countKeywords(primaryKeys);
-                if (count > 2) {
-                    setErrors(prevErrors => ({ ...prevErrors, primaryKeywordsCount: true }));
-                    formValid = false;
-                } else {
-                    setErrors(prevErrors => ({ ...prevErrors, primaryKeywordsCount: false }));
-                }
+                setErrors(prevErrors => ({ ...prevErrors, primaryKeywordsCount: false }));
             }
+        }
 
-    
-            if (secondaryKeys === '') {
+        if (secondaryKeys === '') {
+            setErrors(prevErrors => ({ ...prevErrors, secondaryKeywordsCount: true }));
+            formValid = false;
+        } else {
+            const count = countKeywords(secondaryKeys);
+            if (count > 5) {
                 setErrors(prevErrors => ({ ...prevErrors, secondaryKeywordsCount: true }));
                 formValid = false;
             } else {
-                const count = countKeywords(secondaryKeys);
-                if (count > 5) {
-                    setErrors(prevErrors => ({ ...prevErrors, secondaryKeywordsCount: true }));
-                    formValid = false;
-                } else {
-                    setErrors(prevErrors => ({ ...prevErrors, secondaryKeywordsCount: false }));
-                }
+                setErrors(prevErrors => ({ ...prevErrors, secondaryKeywordsCount: false }));
             }
-
-        } else {
-            try {
-                const response = await generateKeywords(url);
-                primaryKeys = response.primary;
-                secondaryKeys = response.secondary;
-            } catch (error) {
-                console.error('Error generating keywords:', error);
-                formValid = false;
-            }
-        }
+        }        
 
         if(formValid) {
             dispatch(setInputs({ url, primaryKeywords: primaryKeys, secondaryKeywords: secondaryKeys }));
@@ -130,22 +127,9 @@ function UserInput({ onFormValid }) {
                           ),
                         }}
                     />
-                </div>
-                <div className="relative w-[49%] flex items-center">
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={showKeywords}
-                                onChange={(e) => setShowKeywords(e.target.checked)}
-                                name="showKeywords"
-                                color="primary"
-                            />
-                        }
-                        label="Know your Keywords"
-                    />
-                </div>
+                </div>                
             </div>
-            { showKeywords && <div className='flex gap-6 w-1/2'>
+            <div className='flex gap-6 w-1/2'>
                 <div className='flex flex-col w-1/2'>
                     <TextField
                         id={errors.primaryKeywordsCount ? "outlined-error-helper-text" : "outlined-basic"}
@@ -184,7 +168,7 @@ function UserInput({ onFormValid }) {
                         }}
                     />
                 </div>                
-            </div>}
+            </div>
             <div className="flex w-[52%] justify-end mt-2">
                 <button type="button" className="flex justify-center items-center gap-2 text-white bg-brandPrimary px-4 py-2 transition duration-300 rounded-lg hover:bg-neutralDGrey focus:ring-4 focus:outline-none focus:ring-green-300 shadow-green-500/50 font-medium text-md text-center me-2 mb-2" onClick={handleButtonClick}>
                     Optimize Now <IoMdSend/> 
