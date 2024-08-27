@@ -16,6 +16,8 @@ function UserInput({ onFormValid }) {
         primaryKeywordsCount: false,
         secondaryKeywordsCount: false,
     });
+    const [loading, setLoading] = useState(false); // Loading state
+
     const dispatch = useDispatch();
    
     const handleButtonClick = async () => {
@@ -46,6 +48,7 @@ function UserInput({ onFormValid }) {
         }
 
         if (formValid && (primaryKeys === '' || secondaryKeys === '')) {
+            setLoading(true); // Set loading state to true
             try {
                 const response = await generateKeywords(url);
                 if (primaryKeys === '') {
@@ -60,6 +63,7 @@ function UserInput({ onFormValid }) {
                 console.error('Error generating keywords:', error);
                 formValid = false;
             }
+            setLoading(false); // Set loading state to false
         }
 
         const countKeywords = (keywordsString) => {
@@ -104,9 +108,11 @@ function UserInput({ onFormValid }) {
             <h1 className="text-3xl text-center w-3/4 font-bold flex justify-center items-center gap-3 font-sans tracking-wide">
                 <BsFillRocketTakeoffFill className='text-brandPrimary text-[45px]' /> Supercharge Your Website Content
             </h1>
-            <h2 className="text-lg text-center font-sans tracking-wide">Transform Your Content for Maximum Impact and Engagement</h2>
-            <div className="w-full flex flex-col items-center justify-center gap-4 mt-3">
-                <div className="relative w-[51%] flex items-center ml-5">
+            <h2 className="text-lg text-center font-sans tracking-wide">
+                Transform Your Content for Maximum Impact and Engagement
+            </h2>
+            <div className="w-full max-w-3xl flex flex-col items-center justify-center gap-4 mt-3">
+                <div className="w-full flex items-center mb-6">
                     <TextField
                         id={errors.websiteUrl ? "outlined-error-helper-text" : "outlined-basic"}
                         label={errors.websiteUrl ? "Error" : "Enter website URL"}
@@ -118,65 +124,73 @@ function UserInput({ onFormValid }) {
                         onChange={(e) => setWebsiteUrl(e.target.value)}
                         className="h-[50px]"
                         InputProps={{
-                          style: {
-                            borderRadius: "15px",
-                          },
-                          endAdornment: (
-                            <div className="flex items-center pr-2">
-                              <FaSearch className="text-[20px] text-gray-500" />
-                            </div>
-                          ),
-                        }}
-                    />
-                </div>                
-            </div>
-            <div className='flex gap-6 w-1/2'>
-                <div className='flex flex-col w-1/2'>
-                    <TextField
-                        id={errors.primaryKeywordsCount ? "outlined-error-helper-text" : "outlined-basic"}
-                        label={errors.primaryKeywordsCount ? "Error" : "Primary Keywords"}
-                        variant="outlined"
-                        className="w-full h-[50px] px-2 py-2"
-                        helperText={errors.primaryKeywordsCount ? "Maximum 2 Primary Keywords." : ""}
-                        error={errors.primaryKeywordsCount}
-                        value={primaryKeywords}
-                        onChange={(e) => setPrimaryKeywords(e.target.value)}
-                        placeholder="keyword1, keyword2"
-                        multiline
-                        InputProps={{
                             style: {
-                              borderRadius: "15px",
-                            }
+                                borderRadius: "15px",
+                            },
+                            endAdornment: (
+                                <div className="flex items-center pr-2">
+                                    <FaSearch className="text-[20px] text-gray-500" />
+                                </div>
+                            ),
                         }}
                     />
                 </div>
-                <div className='flex flex-col w-1/2'>
-                    <TextField
-                        id={errors.secondaryKeywordsCount ? "outlined-error-helper-text" : "outlined-basic"}
-                        label={errors.secondaryKeywordsCount ? "Error" : "Secondary Keywords"}
-                        variant="outlined"
-                        className="w-full h-[50px] px-2 py-2"
-                        helperText={errors.secondaryKeywordsCount ? "Maximum 5 Secondary Keywords." : ""}
-                        error={errors.secondaryKeywordsCount}
-                        value={secondaryKeywords}
-                        onChange={(e) => setSecondaryKeywords(e.target.value)}
-                        placeholder="keyword1, keyword2, keyword3, ...."
-                        multiline
-                        InputProps={{
-                            style: {
-                              borderRadius: "15px",
-                            }
-                        }}
-                    />
-                </div>                
-            </div>
-            <div className="flex w-[52%] justify-end mt-2">
-                <button type="button" className="flex justify-center items-center gap-2 text-white bg-brandPrimary px-4 py-2 transition duration-300 rounded-lg hover:bg-neutralDGrey focus:ring-4 focus:outline-none focus:ring-green-300 shadow-green-500/50 font-medium text-md text-center me-2 mb-2" onClick={handleButtonClick}>
-                    Optimize Now <IoMdSend/> 
-                </button>
+                <div className='w-full flex flex-col sm:flex-row gap-4 mb-3'>
+                    <div className='flex-1'>
+                        <TextField
+                            id={errors.primaryKeywordsCount ? "outlined-error-helper-text" : "outlined-basic"}
+                            label={errors.primaryKeywordsCount ? "Error" : "Primary Keywords (Optional)"}
+                            variant="outlined"
+                            fullWidth
+                            className="h-[50px]"
+                            helperText={errors.primaryKeywordsCount ? "Maximum 2 Primary Keywords." : ""}
+                            error={errors.primaryKeywordsCount}
+                            value={primaryKeywords}
+                            onChange={(e) => setPrimaryKeywords(e.target.value)}
+                            placeholder="keyword1, keyword2"
+                            multiline
+                            InputProps={{
+                                style: {
+                                    borderRadius: "15px",
+                                }
+                            }}
+                        />
+                    </div>
+                    <div className='flex-1'>
+                        <TextField
+                            id={errors.secondaryKeywordsCount ? "outlined-error-helper-text" : "outlined-basic"}
+                            label={errors.secondaryKeywordsCount ? "Error" : "Secondary Keywords (Optional)"}
+                            variant="outlined"
+                            fullWidth
+                            className="h-[50px]"
+                            helperText={errors.secondaryKeywordsCount ? "Maximum 5 Secondary Keywords." : ""}
+                            error={errors.secondaryKeywordsCount}
+                            value={secondaryKeywords}
+                            onChange={(e) => setSecondaryKeywords(e.target.value)}
+                            placeholder="keyword1, keyword2, keyword3, ...."
+                            multiline
+                            InputProps={{
+                                style: {
+                                    borderRadius: "15px",
+                                }
+                            }}
+                        />
+                    </div>                
+                </div>
+                <div className="w-full flex justify-start items-center gap-2 mt-3 mb-3">
+                    <button 
+                        type="button" 
+                        className="flex justify-center items-center gap-2 text-white bg-brandPrimary px-4 py-2 transition duration-300 rounded-lg hover:bg-neutralDGrey focus:ring-4 focus:outline-none focus:ring-green-300 shadow-green-500/50 font-medium text-md text-center"
+                        onClick={handleButtonClick}
+                    >
+                        Optimize Now <IoMdSend/> 
+                    </button>
+                    {loading && <span className="text-gray-500">Loading...</span>} {/* Loading text */}
+                </div>
             </div>
         </div>
     );
+    
 }
 
 export default UserInput;
