@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import { BsFillRocketTakeoffFill } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
@@ -185,7 +185,7 @@ function UserInput({ onFormValid }) {
                     >
                         Optimize Now <IoMdSend/> 
                     </button>
-                    {loading && <span className="text-gray-500">Loading...</span>} {/* Loading text */}
+                    {loading && <CircularProgress size={30} />} {/* Loading text */}
                 </div>
             </div>
         </div>
