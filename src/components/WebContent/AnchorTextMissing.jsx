@@ -108,8 +108,10 @@ const AnchorTextMissing = ({ data }) => {
                     )}
                 </div>
             ) : (
-                <div className="w-full mx-auto my-auto">
-                    <img src={a3} alt="done"/>
+                <div className="w-full flex flex-col justify-center items-center mt-10">
+                    <img src={a3} alt="done" className="w-[6%] mb-2"/>
+                    <p className="text-lg tracking-wide leading-4 font-sans font-bold text-brandPrimary mt-5">No missing anchor texts</p>
+                    <p className="text-lg tracking-wide leading-4 font-sans font-bold text-brandPrimary mt-2">All anchor texts are correctly present</p>
                 </div>
             )}
         </>
